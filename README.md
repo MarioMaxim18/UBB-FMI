@@ -15,7 +15,7 @@
       </li>
       <li>
         <a> 
-          📐  Analytic Geometry
+          📏  Analytic Geometry
         </a>
       </li>
       <li>
