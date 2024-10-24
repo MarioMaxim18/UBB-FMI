@@ -1,5 +1,0 @@
-/Users/mario/Documents/university/sem 2/OOP/examen/cmake-build-debug/CMakeFiles/untitled.dir
-/Users/mario/Documents/university/sem 2/OOP/examen/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/mario/Documents/university/sem 2/OOP/examen/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/Users/mario/Documents/university/sem 2/OOP/examen/cmake-build-debug/CMakeFiles/untitled_autogen_timestamp_deps.dir
-/Users/mario/Documents/university/sem 2/OOP/examen/cmake-build-debug/CMakeFiles/untitled_autogen.dir
