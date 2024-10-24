@@ -1,0 +1,3 @@
+/home/miri/Documents/UBB/sem2/oop/sem2c/cmake-build-debug/CMakeFiles/sem2c.dir
+/home/miri/Documents/UBB/sem2/oop/sem2c/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/miri/Documents/UBB/sem2/oop/sem2c/cmake-build-debug/CMakeFiles/rebuild_cache.dir
