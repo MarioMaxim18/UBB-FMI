@@ -1,0 +1,564 @@
+The number of associative operations is: 1
+a a a 
+a a a 
+a a a 
+
+The number of associative operations is: 2
+a a a 
+a b a 
+a a a 
+
+The number of associative operations is: 3
+a a a 
+a c a 
+a a a 
+
+The number of associative operations is: 4
+a a a 
+b b b 
+a a a 
+
+The number of associative operations is: 5
+a a a 
+a b c 
+a a a 
+
+The number of associative operations is: 6
+a b b 
+b a a 
+b a a 
+
+The number of associative operations is: 7
+a c c 
+c a a 
+c a a 
+
+The number of associative operations is: 8
+a b a 
+a b a 
+a b a 
+
+The number of associative operations is: 9
+a b a 
+b a b 
+a b a 
+
+The number of associative operations is: 10
+a b a 
+b b b 
+a b a 
+
+The number of associative operations is: 11
+b b b 
+b b b 
+b b a 
+
+The number of associative operations is: 12
+a b c 
+b b b 
+c b a 
+
+The number of associative operations is: 13
+a a a 
+a b a 
+a c a 
+
+The number of associative operations is: 14
+a a a 
+a b c 
+a c a 
+
+The number of associative operations is: 15
+c a b 
+a b c 
+b c a 
+
+The number of associative operations is: 16
+a a c 
+a a c 
+c c a 
+
+The number of associative operations is: 17
+a a c 
+a b c 
+c c a 
+
+The number of associative operations is: 18
+a a a 
+a a a 
+a a b 
+
+The number of associative operations is: 19
+b a b 
+a b a 
+b a b 
+
+The number of associative operations is: 20
+a b c 
+b c a 
+c a b 
+
+The number of associative operations is: 21
+a a a 
+a b b 
+a b b 
+
+The number of associative operations is: 22
+b a a 
+a b b 
+a b b 
+
+The number of associative operations is: 23
+a b b 
+a b b 
+a b b 
+
+The number of associative operations is: 24
+a a a 
+b b b 
+b b b 
+
+The number of associative operations is: 25
+a b b 
+b b b 
+b b b 
+
+The number of associative operations is: 26
+b b b 
+b b b 
+b b b 
+
+The number of associative operations is: 27
+c b b 
+b b b 
+b b b 
+
+The number of associative operations is: 28
+a b c 
+b b b 
+b b b 
+
+The number of associative operations is: 29
+a b b 
+b b b 
+c b b 
+
+The number of associative operations is: 30
+a b c 
+b b b 
+c b b 
+
+The number of associative operations is: 31
+a a a 
+a b c 
+a c b 
+
+The number of associative operations is: 32
+b c b 
+c b c 
+b c b 
+
+The number of associative operations is: 33
+a b c 
+b b c 
+c c b 
+
+The number of associative operations is: 34
+b b c 
+b b c 
+c c b 
+
+The number of associative operations is: 35
+a a a 
+a a a 
+a a c 
+
+The number of associative operations is: 36
+a a a 
+a b a 
+a a c 
+
+The number of associative operations is: 37
+c c a 
+c c a 
+a a c 
+
+The number of associative operations is: 38
+a a a 
+a a b 
+a a c 
+
+The number of associative operations is: 39
+a a a 
+b b b 
+a a c 
+
+The number of associative operations is: 40
+a a c 
+a a c 
+a a c 
+
+The number of associative operations is: 41
+a a c 
+a b c 
+a a c 
+
+The number of associative operations is: 42
+a a a 
+a a a 
+a b c 
+
+The number of associative operations is: 43
+a b a 
+a b a 
+a b c 
+
+The number of associative operations is: 44
+a a a 
+a a b 
+a b c 
+
+The number of associative operations is: 45
+a b a 
+b a b 
+a b c 
+
+The number of associative operations is: 46
+b c a 
+c a b 
+a b c 
+
+The number of associative operations is: 47
+a a a 
+a b b 
+a b c 
+
+The number of associative operations is: 48
+b a a 
+a b b 
+a b c 
+
+The number of associative operations is: 49
+a b a 
+a b b 
+a b c 
+
+The number of associative operations is: 50
+a b b 
+a b b 
+a b c 
+
+The number of associative operations is: 51
+a a a 
+b b b 
+a b c 
+
+The number of associative operations is: 52
+a b a 
+b b b 
+a b c 
+
+The number of associative operations is: 53
+b b a 
+b b b 
+a b c 
+
+The number of associative operations is: 54
+c b a 
+b b b 
+a b c 
+
+The number of associative operations is: 55
+b b b 
+b b b 
+a b c 
+
+The number of associative operations is: 56
+a b c 
+b b b 
+a b c 
+
+The number of associative operations is: 57
+a a a 
+a c b 
+a b c 
+
+The number of associative operations is: 58
+a a a 
+a b c 
+a b c 
+
+The number of associative operations is: 59
+a b c 
+a b c 
+a b c 
+
+The number of associative operations is: 60
+a a a 
+b b b 
+b b c 
+
+The number of associative operations is: 61
+b b a 
+b b b 
+b b c 
+
+The number of associative operations is: 62
+a b b 
+b b b 
+b b c 
+
+The number of associative operations is: 63
+b b b 
+b b b 
+b b c 
+
+The number of associative operations is: 64
+c c b 
+c c b 
+b b c 
+
+The number of associative operations is: 65
+a b c 
+b b c 
+b b c 
+
+The number of associative operations is: 66
+b b c 
+b b c 
+b b c 
+
+The number of associative operations is: 67
+a b a 
+b b b 
+c b c 
+
+The number of associative operations is: 68
+a b c 
+b b b 
+c b c 
+
+The number of associative operations is: 69
+c b c 
+b b b 
+c b c 
+
+The number of associative operations is: 70
+a b c 
+b c b 
+c b c 
+
+The number of associative operations is: 71
+c b c 
+b c b 
+c b c 
+
+The number of associative operations is: 72
+a b c 
+b b c 
+c b c 
+
+The number of associative operations is: 73
+a b c 
+c b c 
+c b c 
+
+The number of associative operations is: 74
+c b c 
+c b c 
+c b c 
+
+The number of associative operations is: 75
+a a a 
+a b b 
+a c c 
+
+The number of associative operations is: 76
+a a a 
+a b c 
+a c c 
+
+The number of associative operations is: 77
+c a a 
+a b c 
+a c c 
+
+The number of associative operations is: 78
+a a c 
+a b c 
+a c c 
+
+The number of associative operations is: 79
+a c c 
+a b c 
+a c c 
+
+The number of associative operations is: 80
+a a a 
+a c c 
+a c c 
+
+The number of associative operations is: 81
+c a a 
+a c c 
+a c c 
+
+The number of associative operations is: 82
+a c c 
+a c c 
+a c c 
+
+The number of associative operations is: 83
+a a a 
+a a a 
+c c c 
+
+The number of associative operations is: 84
+a a a 
+a b a 
+c c c 
+
+The number of associative operations is: 85
+a a a 
+b b b 
+c c c 
+
+The number of associative operations is: 86
+a b b 
+b b b 
+c c c 
+
+The number of associative operations is: 87
+b b b 
+b b b 
+c c c 
+
+The number of associative operations is: 88
+a b c 
+b b b 
+c c c 
+
+The number of associative operations is: 89
+a c c 
+b b b 
+c c c 
+
+The number of associative operations is: 90
+c c c 
+b b b 
+c c c 
+
+The number of associative operations is: 91
+a a c 
+a a c 
+c c c 
+
+The number of associative operations is: 92
+a b c 
+b a c 
+c c c 
+
+The number of associative operations is: 93
+c c c 
+c a c 
+c c c 
+
+The number of associative operations is: 94
+a a a 
+a b c 
+c c c 
+
+The number of associative operations is: 95
+a a c 
+a b c 
+c c c 
+
+The number of associative operations is: 96
+b a c 
+a b c 
+c c c 
+
+The number of associative operations is: 97
+c a c 
+a b c 
+c c c 
+
+The number of associative operations is: 98
+a b c 
+a b c 
+c c c 
+
+The number of associative operations is: 99
+c c c 
+a b c 
+c c c 
+
+The number of associative operations is: 100
+a a c 
+b b c 
+c c c 
+
+The number of associative operations is: 101
+a b c 
+b b c 
+c c c 
+
+The number of associative operations is: 102
+b b c 
+b b c 
+c c c 
+
+The number of associative operations is: 103
+a a a 
+c b c 
+c c c 
+
+The number of associative operations is: 104
+c a c 
+c b c 
+c c c 
+
+The number of associative operations is: 105
+a c c 
+c b c 
+c c c 
+
+The number of associative operations is: 106
+c c c 
+c b c 
+c c c 
+
+The number of associative operations is: 107
+a b c 
+b c c 
+c c c 
+
+The number of associative operations is: 108
+a c c 
+b c c 
+c c c 
+
+The number of associative operations is: 109
+a a a 
+c c c 
+c c c 
+
+The number of associative operations is: 110
+a b c 
+c c c 
+c c c 
+
+The number of associative operations is: 111
+a c c 
+c c c 
+c c c 
+
+The number of associative operations is: 112
+b c c 
+c c c 
+c c c 
+
+Associative Table Operation: 113
+c c c 
+c c c 
+c c c 

@@ -1,0 +1,22 @@
+1. The number of abelian group structures on a set G = {a1, a2, a3, a4} is 4.
+2. The abelian group structures are given by the matrices:
+a1 a2 a3 a4 
+a2 a3 a4 a1 
+a3 a4 a1 a2 
+a4 a1 a2 a3 
+
+a2 a3 a4 a1 
+a3 a4 a1 a2 
+a4 a1 a2 a3 
+a1 a2 a3 a4 
+
+a3 a4 a1 a2 
+a4 a1 a2 a3 
+a1 a2 a3 a4 
+a2 a3 a4 a1 
+
+a4 a1 a2 a3 
+a1 a2 a3 a4 
+a2 a3 a4 a1 
+a3 a4 a1 a2 
+

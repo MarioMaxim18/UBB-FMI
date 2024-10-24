@@ -1,0 +1,31 @@
+The number of associative operations is: 1
+a a 
+a a 
+
+The number of associative operations is: 2
+a b 
+b a 
+
+The number of associative operations is: 3
+a a 
+a b 
+
+The number of associative operations is: 4
+b a 
+a b 
+
+The number of associative operations is: 5
+a b 
+a b 
+
+The number of associative operations is: 6
+a a 
+b b 
+
+The number of associative operations is: 7
+a b 
+b b 
+
+Associative Table Operation: 8
+b b 
+b b 

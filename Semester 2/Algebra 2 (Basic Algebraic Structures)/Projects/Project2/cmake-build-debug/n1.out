@@ -1,0 +1,8 @@
+The number of abelian group structures on a set G = {a1, a2, ..., an} is 2.
+The abelian group structures are given by the matrices:
+0 1 
+1 0 
+
+1 0 
+0 1 
+
