@@ -1,0 +1,12 @@
+The Beatles,Hey Jude,7:11,https://www.youtube.com/watch?v=A_MjCqQoLLA
+AC/DC,Highway to Hell,3:28,https://www.youtube.com/watch?v=l482T0yNkeo
+The Beatles,Let It Be,4:3,https://www.youtube.com/watch?v=QDYfEBY9NM4
+Journey,Don't Stop Believin',4:11,https://www.youtube.com/watch?v=1k8craCGpgs
+Pink Floyd,Wish You Were Here,5:34,https://www.youtube.com/watch?v=WaEKXGlfYj8
+Black Sabbath,Paranoid,2:51,https://www.youtube.com/watch?v=0qanF-91aJo
+Led Zeppelin,Kashmir,8:32,https://www.youtube.com/watch?v=PD-MdiUm1_Y
+Deep Purple,Highway Star,6:5,https://www.youtube.com/watch?v=UAKCR7kQMTQ
+Queen,Don't stop me now,3:31,https://www.youtube.com/watch?v=HgzGwKwLmgM
+Pink Floyd,Comfortably Numb,6:22,https://www.youtube.com/watch?v=x-xTttimcNk
+Led Zeppelin,Stairway to Heaven,8:2,https://www.youtube.com/watch?v=Ly6ZhQVnVow
+Deep Purple,Smoke on the Water,5:40,https://www.youtube.com/watch?v=Q2FzZSBD5LE
