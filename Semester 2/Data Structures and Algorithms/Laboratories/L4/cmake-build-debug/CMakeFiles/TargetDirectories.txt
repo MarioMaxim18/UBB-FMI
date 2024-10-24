@@ -1,0 +1,3 @@
+/Users/mario/Desktop/university/sem 2/Data Structures/L4/cmake-build-debug/CMakeFiles/New_Folder_With_Items.dir
+/Users/mario/Desktop/university/sem 2/Data Structures/L4/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/mario/Desktop/university/sem 2/Data Structures/L4/cmake-build-debug/CMakeFiles/rebuild_cache.dir
