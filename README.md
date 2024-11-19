@@ -87,7 +87,7 @@
         </a>
       </li>
       <li>
-        <a href="https://github.com/MarioMaxim18/UBB-FMI/tree/main/Semester%203/Differential%20Equations> 
+        <a href="https://github.com/MarioMaxim18/UBB-FMI/tree/main/Semester%203/Differential%20Equations"> 
           📋  Differential Equations
         </a>
       </li>
