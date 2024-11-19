@@ -82,12 +82,12 @@
         </a>
       </li>
       <li>
-        <a> 
+        <a href="https://github.com/MarioMaxim18/UBB-FMI/tree/main/Semester%203/Complex%20Analysis"> 
           📈  Complex Analysis
         </a>
       </li>
       <li>
-        <a> 
+        <a href="https://github.com/MarioMaxim18/UBB-FMI/tree/main/Semester%203/Differential%20Equations> 
           📋  Differential Equations
         </a>
       </li>
