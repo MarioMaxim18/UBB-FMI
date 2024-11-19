@@ -1,0 +1,66 @@
+     1                                  ; 4.Given the bytes A and B, Compute the doubleword C as follows:
+     2                                      ;· the bits 8-15 of C have the value 0
+     3                                      ;· the bits 16-23 of C are the same as the bits of B
+     4                                      ;· the bits 24-31 of C are the same as the bits of A
+     5                                      ;· the bits 0-7 of C have the value 1
+     6                                  
+     7                                  bits 32 ; assembling for the 32 bits architectureS
+     8                                  
+     9                                  ; declare the EntryPoint (a label defining the very first instruction of the program)
+    10                                  global start 
+    11                                     
+    12                                  ; declare external functions needed by our program
+    13                                  extern exit               ; tell nasm that exit exists even if we won't be defining it
+    14                                  import exit msvcrt.dll    ; exit is a function that ends the calling process. It is defined in msvcrt.dll
+    15                                                            ; msvcrt.dll contains exit, printf and all the other important C-runtime specific functions
+    16                                  
+    17                                  ; our data is declared here (the variables needed by our program)
+    18                                  segment data use32 class=data
+    19                                      
+    20 00000000 E7                          a db 11100111b
+    21 00000001 89                          b db 10001001b
+    22 00000002 00000000                    c dd 0
+    23                                     
+    24                                  ; our code starts here
+    25                                  segment code use32 class=code
+    26                                      start:
+    27 00000000 810D[02000000]FF00-             or dword[c], 00000000000000000000000011111111b; --> 0000_0000_0000...
+    27 00000008 0000               
+    28                                   
+    29 0000000A B800000000                      mov eax, 0
+    30 0000000F A0[01000000]                    mov AL, [b]
+    31                                          ;cbw; AX = b15 b14 13 ... b0
+    32                                          ;cwde; EAX = b31 b30 ... b0
+    33 00000014 C1E018                          shl EAX, 24; EAX = b7 b6 b5 b4 b3 b2 b1 b0 0 0 0 ... 0
+    34 00000017 C1E808                          shr EAX, 8
+    35 0000001A 0905[02000000]                  or dword[c], EAX
+    36 00000020 66830D[02000000]00              or word[c+0], 0000_0000_0000_0000b
+    37 00000028 66810D[04000000]FF-             or word[c+2], 0000_1111_1111_1111b
+    37 00000030 0F                 
+    38                                          
+    39 00000031 A0[00000000]                    mov al, byte[a]
+    40 00000036 A2[05000000]                    mov byte[c+3], al
+    41                                          ;mov eax, 0
+    42                                          ;mov AL, [a]
+    43                                          ;cbw
+    44                                          ;cwde
+    45                                          ;shl EAX, 24
+    46                                          ;or dword[c], EAX
+    47                                          
+    48                                          ; exit(0)
+    49 0000003B 6A00                            push    dword 0      ; push the parameter for exit onto the stack
+    50 0000003D FF15[00000000]                  call    [exit]       ; call exit to terminate the program
+    51                                          
+    52                                          ;doi dw 2
+    53                                          ;imul [doi]
+    54                                          
+    55                                          ; mov AX, [a]
+    56                                          ; imul word[2] ==> DX:AX = 2*a
+    57                                          ;
+    58                                          ; sau
+    59                                          ;
+    60                                          ; mov AX, [a]
+    61                                          ; mov BX, 2
+    62                                          ; imul BX ==>  DX:AX = 2*a --> corect
+    63                                  
+    64                                      
