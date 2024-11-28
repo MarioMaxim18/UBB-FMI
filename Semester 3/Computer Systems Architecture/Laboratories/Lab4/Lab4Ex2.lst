@@ -1,0 +1,39 @@
+     1                                  ;   B9. A string of doublewords S is given. Compute string D containing only low bytes from low words from each doubleword from string S.
+     2                                  ;   If S  = 51234678h, 1a2b3c4dh => D = 78h, 4dh
+     3                                  
+     4                                  bits 32 ; assembling for the 32 bits architectureS
+     5                                  
+     6                                  ; declare the EntryPoint (a label defining the very first instruction of the program)
+     7                                  global start 
+     8                                     
+     9                                  ; declare external functions needed by our program
+    10                                  extern exit               ; tell nasm that exit exists even if we won't be defining it
+    11                                  import exit msvcrt.dll    ; exit is a function that ends the calling process. It is defined in msvcrt.dll
+    12                                                            ; msvcrt.dll contains exit, printf and all the other important C-runtime specific functions
+    13                                  
+    14                                  ; our data is declared here (the variables needed by our program)
+    15                                  segment data use32 class=data
+    16                                  
+    17 00000000 784623514D3C2B1A            s dd 51234678h, 1a2b3c4dh
+    18                                      len_s equ ($-s)/4   ; 1 dd = 4 bytes
+    19 00000008 00<rept>                    d times len_s db 0  
+    20                                  
+    21                                     
+    22                                  ; our code starts here
+    23                                  segment code use32 class=code
+    24                                      start:
+    25 00000000 B902000000                      mov ECX, len_s
+    26 00000005 BE00000000                      mov ESI, 0; pentru a parcurge sirul initial s
+    27 0000000A BF00000000                      mov EDI, 0; pentru parcurgere sir rezultat d
+    28                                          
+    29                                          repeta:
+    30 0000000F 8B86[00000000]                      mov EAX, [s+ESI]
+    31 00000015 8887[08000000]                      mov [d+EDI], AL
+    32 0000001B 83C604                              add ESI, 4
+    33 0000001E 47                                  inc EDI
+    34 0000001F E2EE                            loop repeta
+    35                                              
+    36                                          ; exit(0)
+    37 00000021 6A00                            push    dword 0      ; push the parameter for exit onto the stack
+    38 00000023 FF15[00000000]                  call    [exit]       ; call exit to terminate the program
+    39                                           

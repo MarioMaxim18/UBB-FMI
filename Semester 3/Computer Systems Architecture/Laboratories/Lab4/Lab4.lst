@@ -1,0 +1,40 @@
+     1                                  ;   A4. A string of bytes A is given. Construct string B such that each element from B represent the product of two consecutive elements from string A.
+     2                                  ;   If A = 2, 4, 5, 7 => B = 8, 20, 35
+     3                                  
+     4                                  bits 32 ; assembling for the 32 bits architectureS
+     5                                  
+     6                                  ; declare the EntryPoint (a label defining the very first instruction of the program)
+     7                                  global start 
+     8                                     
+     9                                  ; declare external functions needed by our program
+    10                                  extern exit               ; tell nasm that exit exists even if we won't be defining it
+    11                                  import exit msvcrt.dll    ; exit is a function that ends the calling process. It is defined in msvcrt.dll
+    12                                                            ; msvcrt.dll contains exit, printf and all the other important C-runtime specific functions
+    13                                  
+    14                                  ; our data is declared here (the variables needed by our program)
+    15                                  segment data use32 class=data
+    16                                      
+    17 00000000 060205                      s db 6, 2, 5
+    18                                      len_sir equ $-s
+    19 00000003 0000<rept>                  b times len_sir-1 dw 0 
+    20                                     
+    21                                  ; our code starts here
+    22                                  segment code use32 class=code
+    23                                      start:
+    24 00000000 B902000000                      mov ECX, len_sir-1
+    25 00000005 BE00000000                      mov ESI, 0; pentru a parcurge sirul initial s
+    26 0000000A BF00000000                      mov EDI, 0; pentru parcurgere sir rezultat b
+    27                                          
+    28                                          repeta:
+    29 0000000F 8A86[00000000]                      mov AL, [s+ESI]
+    30 00000015 8A9E[01000000]                      mov BL, [s+ESI+1]
+    31 0000001B F6E3                                mul BL; AX =s1*s2
+    32 0000001D 668987[03000000]                    mov [b+EDI], AX
+    33 00000024 46                                  inc ESI               
+    34 00000025 83C702                              add EDI, 2                
+    35 00000028 E2E5                            loop repeta
+    36                                          
+    37                                          ; exit(0)
+    38 0000002A 6A00                            push    dword 0      ; push the parameter for exit onto the stack
+    39 0000002C FF15[00000000]                  call    [exit]       ; call exit to terminate the program
+    40                                           
