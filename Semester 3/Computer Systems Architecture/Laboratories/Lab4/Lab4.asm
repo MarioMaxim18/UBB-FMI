@@ -22,8 +22,8 @@ segment data use32 class=data
 segment code use32 class=code
     start:
         mov ECX, len_sir-1
-        mov ESI, 0; pentru a parcurge sirul initial s
-        mov EDI, 0; pentru parcurgere sir rezultat b
+        mov ESI, 0
+        mov EDI, 0
         
         repeta:
             mov AL, [s+ESI]

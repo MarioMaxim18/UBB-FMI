@@ -15,6 +15,7 @@ import exit msvcrt.dll    ; exit is a function that ends the calling process. It
 segment data use32 class=data
 
     s dd 51234678h, 1a2b3c4dh
+    ; 78 46 23 51 4d 3c 2b 1a
     len_s equ ($-s)/4   ; 1 dd = 4 bytes
     d times len_s db 0  
 
@@ -23,11 +24,12 @@ segment data use32 class=data
 segment code use32 class=code
     start:
         mov ECX, len_s
-        mov ESI, 0; pentru a parcurge sirul initial s
-        mov EDI, 0; pentru parcurgere sir rezultat d
+        mov ESI, 0
+        mov EDI, 0
         
         repeta:
-            mov EAX, [s+ESI]
+            mov al, byte[s+ESI]
+            ;mov EAX, dword[s+ESI]
             mov [d+EDI], AL
             add ESI, 4
             inc EDI

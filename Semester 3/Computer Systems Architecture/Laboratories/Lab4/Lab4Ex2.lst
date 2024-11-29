@@ -23,8 +23,8 @@
     23                                  segment code use32 class=code
     24                                      start:
     25 00000000 B902000000                      mov ECX, len_s
-    26 00000005 BE00000000                      mov ESI, 0; pentru a parcurge sirul initial s
-    27 0000000A BF00000000                      mov EDI, 0; pentru parcurgere sir rezultat d
+    26 00000005 BE00000000                      mov ESI, 0
+    27 0000000A BF00000000                      mov EDI, 0
     28                                          
     29                                          repeta:
     30 0000000F 8B86[00000000]                      mov EAX, [s+ESI]
