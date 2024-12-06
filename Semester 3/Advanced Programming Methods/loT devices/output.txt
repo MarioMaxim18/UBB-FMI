@@ -1,0 +1,2 @@
+Smoke sensor[Producer: Producer1, Last recording: 1599.0, Length: 3.0, Price: 25.0, Alert: false]
+Temperature sensor[Producer: Producer1, Last recording: 36.0, Diameter: 4.0, Price: 9.0, Alert: true]

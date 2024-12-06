@@ -1,0 +1,3 @@
+Strength training machine{serialNumber: 4, maintenance: true, motionLevel: 2, muscleGroup: core, Price: 800.0}
+Strength training machine{serialNumber: 3, maintenance: true, motionLevel: 32, muscleGroup: legs, Price: 600.0}
+Cardio machine{serialNumber: 1, maintenance: true, resistance: 12, Price: 200.0}

@@ -1,0 +1,6 @@
+Compute,compute1,2024-01-03,4
+Compute,compute2,2024-01-02,10
+Storage,storage1,2024-01-05,3,HDD
+Storage,storage2,2024-01-04,7,SSD
+Compute,compute3,2024-01-15,16
+Storage,storage3,2024-02-03,8,Hybrid
