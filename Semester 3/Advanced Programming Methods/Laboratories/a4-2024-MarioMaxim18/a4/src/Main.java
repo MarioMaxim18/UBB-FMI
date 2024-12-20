@@ -1,4 +1,5 @@
 import UI.UI;
+import domain.Appointment;
 import domain.Dentist;
 import repository.*;
 import repository.DentistBinaryFileRepository;
@@ -13,7 +14,7 @@ import java.util.Properties;
 public class Main {
     public static void main(String[] args) {
         IRepository<Integer, Dentist> repo = null;
-        
+
         FileReader fileToRead = null;
         try {
             fileToRead = new FileReader("settings.properties");
@@ -28,6 +29,9 @@ public class Main {
 
             if (repositoryType.equals("binary"))
                 repo = new DentistBinaryFileRepository(repositoryPath);
+
+            if (repositoryType.equals("json"))
+                repo = new DentistJsonFileRepository(repositoryPath);
 
             if (repositoryType.equals("DB"))
                 repo = new DentistDBRepository();
@@ -48,4 +52,3 @@ public class Main {
         }
     }
 }
-    

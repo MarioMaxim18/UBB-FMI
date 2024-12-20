@@ -1,7 +1,6 @@
 package repository;
 
 import domain.Dentist;
-import domain.Identifiable;
 
 import java.sql.*;
 
@@ -49,5 +48,44 @@ public class DentistDBRepository extends MemoryRepository<Dentist> {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public void deleteDentist(int id) throws RepositoryException {
+        super.deleteDentist(id);
+
+        try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
+            PreparedStatement statement = conn.prepareStatement(
+                    "DELETE FROM dentists WHERE id = ?");
+            statement.setInt(1, id);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void modifyDentist(int id, Dentist newDentist) throws RepositoryException {
+        super.modifyDentist(id, newDentist);
+
+        try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
+            PreparedStatement statement = conn.prepareStatement(
+                    "UPDATE dentists SET name = ?, specialty = ?, grade = ? WHERE id = ?");
+            statement.setString(1, newDentist.getName());
+            statement.setString(2, newDentist.getSpecialty());
+            statement.setDouble(3, newDentist.getGrade());
+            statement.setInt(4, id);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Dentist findByIdDentist(int id) throws RepositoryException {
+        Dentist dentist = dentists.get(id);
+        if (dentist == null) {
+            throw new RepositoryException("Dentist with id " + id + " not found.");
+        }
+        return dentist;
     }
 }

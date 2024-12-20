@@ -9,6 +9,7 @@ import repository.FilteredRepository;
 import repository.IRepository;
 import repository.RepositoryException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Service<T extends Identifiable> {
@@ -96,7 +97,7 @@ public class Service<T extends Identifiable> {
         return getFilteredAppointments();
     }
 
-    public List<Dentist> filterDentistsBySpecialty(String specialty) throws RepositoryException{
+    public List<Dentist> filterDentistsBySpecialty(String specialty) throws RepositoryException {
         setFilterDentists(new FilterDentistBySpecialty(specialty));
         return getFilteredDentists();
     }
@@ -104,5 +105,55 @@ public class Service<T extends Identifiable> {
     public List<Dentist> filterDentistsByGrade(double grade) throws RepositoryException {
         setFilterDentists(new FilterDentistByGrade(grade));
         return getFilteredDentists();
+    }
+
+    public List<Dentist> getSortedDentistsByName() {
+        List<Dentist> dentists = new ArrayList<>();
+        for (Identifiable d: repo.getAllDentists())
+            dentists.add((Dentist) d);
+        List<Dentist> sortedDentists = dentists.stream()
+                .sorted((d1, d2) -> d1.getName().compareTo(d2.getName()))
+                .toList();
+        return sortedDentists;
+    }
+
+    public List<Dentist> getSortedDentistsByGrade() {
+        List<Dentist> dentists = new ArrayList<>();
+        for (Identifiable d: repo.getAllDentists())
+            dentists.add((Dentist) d);
+        List<Dentist> sortedDentists = dentists.stream()
+                .sorted((d1, d2) -> Double.compare(d1.getGrade(), d2.getGrade()))
+                .toList();
+        return sortedDentists;
+    }
+
+    public List<Dentist> getSortedDentistsBySpecialty() {
+        List<Dentist> dentists = new ArrayList<>();
+        for (Identifiable d: repo.getAllDentists())
+            dentists.add((Dentist) d);
+        List<Dentist> sortedDentists = dentists.stream()
+                .sorted((d1, d2) -> d1.getSpecialty().compareTo(d2.getSpecialty()))
+                .toList();
+        return sortedDentists;
+    }
+
+    public List<Dentist> getSortedDentistsByID() {
+        List<Dentist> dentists = new ArrayList<>();
+        for (Identifiable d: repo.getAllDentists())
+            dentists.add((Dentist) d);
+        List<Dentist> sortedDentists = dentists.stream()
+                .sorted((d1, d2) -> d1.getId() - d2.getId())
+                .toList();
+        return sortedDentists;
+    }
+
+    public List<Appointment> getSortedAppointmentsByTime() {
+        List<Appointment> appointments = new ArrayList<>();
+        for (Identifiable a: repo.getAllAppointments())
+            appointments.add((Appointment) a);
+        List<Appointment> sortedAppointments = appointments.stream()
+                .sorted((a1, a2) -> a1.getTime() - a2.getTime())
+                .toList();
+        return sortedAppointments;
     }
 }

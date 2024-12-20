@@ -35,5 +35,15 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="sqlite-jdbc-3.47.1.0" level="project" />
+    <orderEntry type="library" name="jackson-databind-2.18.2" level="project" />
+    <orderEntry type="library" name="jackson-core-2.14.0" level="project" />
+    <orderEntry type="library" name="jackson-annotations-2.18.2" level="project" />
+    <orderEntry type="library" name="xml-apis-2.0.2" level="project" />
+    <orderEntry type="library" name="jaxb-api-2.4.0-b180830.0359" level="project" />
+    <orderEntry type="library" name="jaxb-impl-4.0.5" level="project" />
+    <orderEntry type="library" name="jaxb-api-2.3.1" level="project" />
+    <orderEntry type="library" name="jaxb-runtime-2.3.3" level="project" />
+    <orderEntry type="library" name="istack-commons-runtime-4.2.0" level="project" />
+    <orderEntry type="library" name="activation-1.1.1" level="project" />
   </component>
 </module>

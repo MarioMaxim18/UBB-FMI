@@ -22,6 +22,14 @@ public class UI {
     private static final int FILTER_APPOINTMENTS_BY_TIME_OPTION = 7;
     private static final int FILTER_DENTIST_BY_SPECIALTY_OPTION = 8;
     private static final int FILTER_DENTIST_BY_GRADE_OPTION = 9;
+    private static final int PRINT_ALL_DENTISTS_SORTED_BY_NAME = 10;
+    private static final int PRINT_ALL_DENTISTS_SORTED_BY_GRADE = 11;
+    private static final int PRINT_ALL_DENTISTS_SORTED_BY_SPECIALTY = 12;
+    private static final int PRINT_ALL_DENTISTS_SORTED_BY_ID = 13;
+    private static final int PRINT_ALL_APPOINTMENTS_SORTED_BY_TIME = 14;
+    private static final int ADD_DENTIST_OPTION = 15;
+    private static final int REMOVE_DENTIST_OPTION = 16;
+    private static final int UPDATE_DENTIST_OPTION = 17;
 
     private static final int PLACE_HOLDER_ID = 0;
     private static final String PLACE_HOLDER_SPECIALTY = "";
@@ -49,12 +57,19 @@ public class UI {
         System.out.println(FILTER_APPOINTMENTS_BY_TIME_OPTION + ". Filter appointments by time");
         System.out.println(FILTER_DENTIST_BY_SPECIALTY_OPTION + ". Filter dentists by specialty");
         System.out.println(FILTER_DENTIST_BY_GRADE_OPTION + ". Filter dentists by grade");
-        System.out.println();
+        System.out.println(PRINT_ALL_DENTISTS_SORTED_BY_NAME + ". Print all dentists sorted by name");
+        System.out.println(PRINT_ALL_DENTISTS_SORTED_BY_GRADE + ". Print all dentists sorted by grade");
+        System.out.println(PRINT_ALL_DENTISTS_SORTED_BY_SPECIALTY + ". Print all dentists sorted by specialty");
+        System.out.println(PRINT_ALL_DENTISTS_SORTED_BY_ID + ". Print all dentists sorted by ID");
+        System.out.println(PRINT_ALL_APPOINTMENTS_SORTED_BY_TIME + ". Print all appointments sorted by time");
+        System.out.println(ADD_DENTIST_OPTION + ". Add dentist");
+        System.out.println(REMOVE_DENTIST_OPTION + ". Remove dentist");
+        System.out.println(UPDATE_DENTIST_OPTION + ". Update dentist");
         System.out.println(EXIT_OPTION + ". Exit");
     }
 
-    public void run() {
-//      populateList();
+    public void run() throws RepositoryException {
+        populateList();
         Scanner scanner = new Scanner(System.in);
         int appointmentID;
         int dentistID;
@@ -210,6 +225,78 @@ public class UI {
                     }
                     break;
 
+                case PRINT_ALL_DENTISTS_SORTED_BY_NAME:
+                    System.out.println(service.getSortedDentistsByName());
+                    break;
+
+                case PRINT_ALL_DENTISTS_SORTED_BY_GRADE:
+                    System.out.println(service.getSortedDentistsByGrade());
+                    break;
+
+                case PRINT_ALL_DENTISTS_SORTED_BY_SPECIALTY:
+                    System.out.println(service.getSortedDentistsBySpecialty());
+                    break;
+
+                case PRINT_ALL_DENTISTS_SORTED_BY_ID:
+                    System.out.println(service.getSortedDentistsByID());
+                    break;
+
+                case PRINT_ALL_APPOINTMENTS_SORTED_BY_TIME:
+                    System.out.println(service.getSortedAppointmentsByTime());
+                    break;
+
+                case ADD_DENTIST_OPTION:
+                    try {
+                        dentistID = service.generateUniqueIDforDentist();
+                        System.out.println("Generated dentist ID: " + dentistID);
+
+                        System.out.println("Enter the dentist's name:");
+                        dentistName = scanner.nextLine();
+
+                        System.out.println("Enter the dentist's specialty:");
+                        String dentistSpecialty = getValidSpecialty(scanner);
+
+                        System.out.println("Enter the dentist's grade:");
+                        double grade = getValidGrade(scanner);
+
+                        service.addDentist(dentistID, dentistName, dentistSpecialty, grade);
+                    } catch (Exception e) {
+                        System.out.println("Error while adding dentist: " + e.getMessage());
+                    }
+                    break;
+
+                case REMOVE_DENTIST_OPTION:
+                    try {
+                        System.out.println("Enter the dentist ID:");
+                        dentistID = getValidID(scanner);
+
+                        service.deleteDentist(dentistID);
+                        System.out.println("The dentist has been removed.");
+                    } catch (Exception e) {
+                        System.out.println("Error while removing dentist: " + e.getMessage());
+                    }
+                    break;
+
+                case UPDATE_DENTIST_OPTION:
+                    try {
+                        System.out.println("Enter the dentist ID:");
+                        dentistID = getValidID(scanner);
+
+                        System.out.println("Enter the new name:");
+                        dentistName = scanner.nextLine();
+
+                        System.out.println("Enter the new specialty:");
+                        String dentistSpecialty = getValidSpecialty(scanner);
+
+                        System.out.println("Enter the new grade:");
+                        double grade = getValidGrade(scanner);
+
+                        service.updateDentist(dentistID, dentistName, dentistSpecialty, grade);
+                    } catch (Exception e) {
+                        System.out.println("Error while updating dentist: " + e.getMessage());
+                    }
+                    break;
+
                 case EXIT_OPTION:
                     System.out.println("Now exiting...");
                     CheckIfUserWantToExitFromMenu = false;
@@ -284,25 +371,8 @@ public class UI {
         return grade;
     }
 
-//    void populateList() {
-//        service.addAppointment(new Dentist(1, "Mario", "Orthodontics", 10.0), 1, 10);
-//        service.addDentist(1, "Mario", "Orthodontics", 10.0);
-//        service.addAppointment(new Dentist(2, "Andrei", "Endodontics", 9.2), 2, 11);
-//        service.addDentist(2, "Andrei", "Endodontics", 9.2);
-//        service.addAppointment(new Dentist(3, "Andrei", "Periodontics", 8.3), 3, 8);
-//        service.addDentist(3, "Andrei", "Periodontics", 8.3);
-//        service.addAppointment(new Dentist(4, "Matei", "Oral Surgery", 3.1), 4, 11);
-//        service.addDentist(4, "Matei", "Oral Surgery", 12.1);
-//        service.addAppointment(new Dentist(5, "Matei", "Pediatric Dentistry", 9.2), 5, 9);
-//        service.addDentist(5, "Matei", "Pediatric Dentistry", 9.2);
-//        service.addAppointment(new Dentist(6, "Matei", "Pediatric Dentistry", 10.4), 6, 14);
-//        service.addDentist(6, "Matei", "Pediatric Dentistry", 10.4);
-//    }
-
-    public static void main(String[] args) {
-        IRepository<Integer, Identifiable> repo = new MemoryRepository<>();
-        Service service = new Service(repo);
-        UI ui = new UI(service);
-        ui.run();
+    void populateList() throws RepositoryException {
+        service.addAppointment(new Dentist(1, "Mario", "Orthodontics", 10.0), 1, 11);
+        service.addAppointment(new Dentist(2, "Andrei", "Endodontics", 9.2), 2, 10);
     }
 }

@@ -13,6 +13,9 @@ public class Dentist implements Identifiable {
         this.grade = grade;
     }
 
+    public Dentist() {
+    }
+
     @Override
     public int getId() {
         return id;
