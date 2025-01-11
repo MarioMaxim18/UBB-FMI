@@ -14,7 +14,7 @@
         </a>
       </li>
       <li>
-        <a> 
+        <a href="https://github.com/MarioMaxim18/UBB-FMI/tree/main/Semester%201/Analytic%20Geometry"> 
           📏  Analytic Geometry
         </a>
       </li>
