@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="525.0" prefWidth="1007.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ListView fx:id="listViewMedicines" layoutX="14.0" layoutY="14.0" prefHeight="145.0" prefWidth="400.0" />
+      <TextField fx:id="searchCategory" layoutX="552.0" layoutY="42.0" />
+      <TextField fx:id="searchTextField" layoutX="552.0" layoutY="97.0" />
+      <Label layoutX="458.0" layoutY="47.0" text="category" />
+      <Label layoutX="428.0" layoutY="102.0" text="name or description" />
+      <Button fx:id="buttonSearch" layoutX="746.0" layoutY="97.0" mnemonicParsing="false" onAction="#searchHandler" text="Search" />
+      <Button fx:id="buttonDelete" layoutX="552.0" layoutY="159.0" mnemonicParsing="false" onAction="#deleteHandler" text="Delete" />
+      <Label  fx:id="emptyLabel"  layoutX="632.0" layoutY="211.0" prefHeight="17.0" prefWidth="58.0" text="Top three" />
+      <Button fx:id="buttonUpdate" layoutX="552.0" layoutY="207.0" mnemonicParsing="false" onAction="#updateHandler" text="Update" />
+   </children>
+</AnchorPane>

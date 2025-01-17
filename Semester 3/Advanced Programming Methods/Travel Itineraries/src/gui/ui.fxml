@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="525.0" prefWidth="1007.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ListView fx:id="listViewItineraries" layoutX="14.0" layoutY="14.0" prefHeight="133.0" prefWidth="345.0" />
+      <ComboBox fx:id="comboBoxContinent" layoutX="486.0" layoutY="29.0" prefWidth="150.0" />
+      <Label layoutX="407.0" layoutY="33.0" text="continent" />
+      <Label layoutX="372.0" layoutY="91.0" text="name or list of places" />
+      <TextField fx:id="searchTextField" layoutX="487.0" layoutY="87.0" />
+      <TextField fx:id="updateTextField" layoutX="487.0" layoutY="146.0" />
+      <TextField fx:id="findTextField" layoutX="487.0" layoutY="200.0" />
+      <Button fx:id="buttonSearch" layoutX="662.0" layoutY="87.0" mnemonicParsing="false" onAction="#searchHandler" text="Search" />
+      <Button fx:id="buttonUpdate" layoutX="662.0" layoutY="146.0" mnemonicParsing="false" onAction="#updateHandler" text="Update" />
+      <Button fx:id="buttonFind" layoutX="660.0" layoutY="200.0" mnemonicParsing="false" onAction="#findHandler" text="Find" />
+      <Label fx:id="emptyLabel" layoutX="322.0" layoutY="204.0" text="Please enter places to visit" />
+   </children>
+</AnchorPane>
