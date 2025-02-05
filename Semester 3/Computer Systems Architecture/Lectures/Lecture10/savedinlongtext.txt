@@ -1,0 +1,5 @@
+We have read 1974879872 chars from file
+ The text is: abc
+xzy
+123
+qw23!@aBC

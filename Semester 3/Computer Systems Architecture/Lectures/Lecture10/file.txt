@@ -1,0 +1,1 @@
+Sum of all ditis from text is = 55.
