@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ListView fx:id="listViewDoctors" layoutX="14.0" layoutY="50.0" prefHeight="335.0" prefWidth="275.0" />
+      <GridPane layoutX="308.0" layoutY="14.0" prefHeight="145.0" prefWidth="265.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Id" />
+            <Label text="Name" GridPane.rowIndex="1" />
+            <Label text="Specialty" GridPane.rowIndex="2" />
+            <Label text="Grade" GridPane.rowIndex="3" />
+            <TextField fx:id="idTextField" GridPane.columnIndex="1" />
+            <TextField fx:id="nameTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="specialtyTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="gradeTextField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Button fx:id="addButton" mnemonicParsing="false" onAction="#addButtonHandler" prefHeight="26.0" prefWidth="70.0" text="Add" GridPane.rowIndex="4" />
+         </children>
+      </GridPane>
+      <TextField fx:id="serchTextField" layoutX="14.0" layoutY="14.0" onKeyReleased="#handlerSearch" prefHeight="26.0" prefWidth="275.0" promptText="searchText" />
+   </children>
+</AnchorPane>
