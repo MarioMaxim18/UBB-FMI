@@ -1,0 +1,4 @@
+1,Popescu,cardiology,5.0
+2,Georgescu,ORL,5.0
+3,Ionescu,cardiology,7.0
+4,Marin,ORL,9.0
