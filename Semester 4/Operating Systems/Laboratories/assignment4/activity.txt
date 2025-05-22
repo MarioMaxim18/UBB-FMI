@@ -1,0 +1,6 @@
+mario Wed Apr  9 15:04:01 EEST 2025 CONNECTED on Marios-MacBook-Pro.local
+John DISCONNECTED on Marios-MacBook-Pro.local
+mario Wed Apr  9 15:04:11 EEST 2025 CONNECTED on Marios-MacBook-Pro.local
+John DISCONNECTED on Marios-MacBook-Pro.local
+mario Wed Apr  9 15:04:21 EEST 2025 CONNECTED on Marios-MacBook-Pro.local
+John DISCONNECTED on Marios-MacBook-Pro.local
