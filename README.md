@@ -21,7 +21,7 @@
       <li>
         <a href="https://github.com/MarioMaxim18/UBB-FMI/tree/main/Semester%201/Calculus%201%20(Calculus%20on%20R)"> 
           💭  Calculus 1 (Calculus on R)
-      </a>
+        </a>
       </li>
       <li>
         <a href="https://github.com/MarioMaxim18/UBB-FMI/tree/main/Semester%201/Mathematical%20Logic%20and%20Set%20Theory"> 
@@ -37,7 +37,7 @@
           📊  Algebra 2 (Basic Algebraic Structures)
         </a>
       </li>
-      </li>
+      <li>
         <a href="https://github.com/MarioMaxim18/UBB-FMI/tree/main/Semester%202/Calculus%202%20(Differential%20and%20integral%20calculus%20in%20R%5En)"> 
           📉  Calculus 2 (Differential and integral calculus in R^n)
         </a>
