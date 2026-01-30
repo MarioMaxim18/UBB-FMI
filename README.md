@@ -20,7 +20,7 @@
       </li>
       <li>
         <a href="https://github.com/MarioMaxim18/UBB-FMI/tree/main/Semester%201/Calculus%201%20(Calculus%20on%20R)"> 
-          💭  Calculus 1 (Calculus on R)
+          ♾️  Calculus 1 (Calculus on R)
         </a>
       </li>
       <li>
@@ -127,4 +127,33 @@
       </li>
     </ul>
   </li>
+  <li>:open_file_folder: Semester 5
+  <ul>
+    <li>
+      <a href="https://github.com/MarioMaxim18/UBB-FMI/tree/main/Semester%205/Astronomie">
+        🌌 Astronomie
+      </a>
+    </li>
+    <li>
+      <a href="https://github.com/MarioMaxim18/UBB-FMI/tree/main/Semester%205/Interactiunea%20om-calculator">
+        ⌨️ Interacțiunea om–calculator
+      </a>
+    </li>
+    <li>
+      <a href="https://github.com/MarioMaxim18/UBB-FMI/tree/main/Semester%205/Mathematical%20Statistics">
+        🔢 Mathematical Statistics
+      </a>
+    </li>
+    <li>
+      <a href="https://github.com/MarioMaxim18/UBB-FMI/tree/main/Semester%205/Partial%20Differential%20Equations%20">
+        ✏️ Partial Differential Equations
+      </a>
+    </li>
+    <li>
+      <a>
+        📟 Formal Languages and Compiler Design
+      </a>
+    </li>
+  </ul>
+</li>
 </ul>
