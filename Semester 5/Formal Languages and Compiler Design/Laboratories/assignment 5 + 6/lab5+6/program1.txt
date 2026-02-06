@@ -1,0 +1,23 @@
+VAR
+    i : INTEGER;
+    j : INTEGER;
+    status : BOOLEAN;
+    data_array : ARRAY [5] OF REAL;
+;
+
+BEGIN
+    i := 10 + 5;
+    j := 0;
+    status := i >= 15;
+
+    IF status THEN
+        data_array[1] := 2.5 * i
+    ELSE
+        WHILE j < 5 DO
+            j := j + 1;
+            READ (i);
+            WRITE (j)
+        END
+    END
+    
+.

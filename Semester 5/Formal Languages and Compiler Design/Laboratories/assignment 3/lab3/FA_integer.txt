@@ -1,0 +1,8 @@
+states = {q0, q1}
+alphabet = {DIGIT}
+initial_state = q0
+final_states = {q1}
+transitions = {
+    (q0, DIGIT) -> q1;
+    (q1, DIGIT) -> q1;
+}

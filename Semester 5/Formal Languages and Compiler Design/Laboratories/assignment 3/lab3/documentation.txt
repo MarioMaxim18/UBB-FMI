@@ -1,0 +1,16 @@
+<finite-automaton> ::= <state_set> <alphabet> <initial_state> <final_state_set> <transition_set>
+
+<state_set> ::= "states" "=" "{" <state_list> "}"
+<state_list> ::= <state> { "," <state> }
+<state> ::= "q" <digit> { <digit> }
+
+<alphabet> ::= "alphabet" "=" "{" <symbol_list> "}"
+<symbol_list> ::= <symbol> { "," <symbol> }
+<symbol> ::= "LETTER" | "DIGIT" | "_"
+
+<initial_state> ::= "initial_state" "=" <state>
+<final_state_set> ::= "final_states" "=" "{" <state_list> "}"
+
+<transition_set> ::= "transitions" "=" "{" <transition_list> "}"
+<transition_list> ::= <transition> { ";" <transition> }
+<transition> ::= "(" <state> "," <symbol> ")" "->" <state>

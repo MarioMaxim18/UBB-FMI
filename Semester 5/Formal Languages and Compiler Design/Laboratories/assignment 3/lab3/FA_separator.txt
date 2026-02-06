@@ -1,0 +1,16 @@
+states = {q0, q1}
+alphabet = {LPAREN, RPAREN, LBRACE, RBRACE, LBRACKET, RBRACKET, SEMICOLON, COMMA, DOT, COLON}
+initial_state = q0
+final_states = {q1}
+transitions = {
+    (q0, LPAREN) -> q1;
+    (q0, RPAREN) -> q1;
+    (q0, LBRACE) -> q1;
+    (q0, RBRACE) -> q1;
+    (q0, LBRACKET) -> q1;
+    (q0, RBRACKET) -> q1;
+    (q0, SEMICOLON) -> q1;
+    (q0, COMMA) -> q1;
+    (q0, DOT) -> q1;
+    (q0, COLON) -> q1;
+}

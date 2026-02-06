@@ -1,0 +1,47 @@
+%{
+
+#include "Util.h"
+
+%}
+
+%option noyywrap
+%option caseless
+%option lex-compat
+
+LETTER [A-Za-z]
+DIGIT [0-9]
+DIGIT_NZ [1-9]
+ZERO [0]
+IDENTIFIER "&"{LETTER}({LETTER}|{DIGIT})*
+NR_BAZA10 {DIGIT_NZ}+{DIGIT}*|{ZERO}
+
+%%
+
+{IDENTIFIER} {addFIP(0,addST(yytext,st,fip),fip);printf("IDENTIFIER %d\n", 0);}
+{DIGIT} {addFIP(1,addST(yytext,st,fip),fip);printf("DIGIT %d\n", 1);}
+
+BEGIN {addFIP(2,-1,fip); printf("%d\n", 1);}
+END {addFIP(3,-1,fip); printf("%d\n", 2);}
+int {addFIP(4,-1,fip); printf("%d\n", 3);}
+double {addFIP(5,-1,fip); printf("%d\n", 4);}
+
+\n {yylineno++;}
+
+.  { addErr(yytext, yylineno, "Unknown error", error); printf("Error: Unknown error %s", yytext); }
+
+%%
+
+int main(int argc, char *argv[])
+{
+    ++argv, --argc;
+    if (argc > 0)
+        yyin = fopen(argv[0], "r");
+
+    yylex(); 
+
+    printFIP(fip); 
+    printST(st);
+    printErr(error);
+
+    return 0;
+}

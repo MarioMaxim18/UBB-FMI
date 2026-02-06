@@ -1,0 +1,10 @@
+VAR
+    i : INTEGER;
+    flag : BOOLEAN 
+    
+BEGIN // Error 1: Missing ';' here!
+    i := 10 + * 5; // Error 2: Malformed expression
+    
+    WRITE (i)
+END
+.

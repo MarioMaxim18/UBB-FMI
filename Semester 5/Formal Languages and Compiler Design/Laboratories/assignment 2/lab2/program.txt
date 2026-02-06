@@ -1,0 +1,26 @@
+VAR
+    x: INTEGER;
+    y: INTEGER;
+    z: INTEGER
+BEGIN
+    x := 10;
+    y := 5;
+    z := 3;
+
+    IF (x > y) THEN
+        BEGIN
+            x := x + 1
+        END
+    ELSE
+        BEGIN
+            y := y + 2
+        END;
+
+    WHILE (z < 10) DO
+        BEGIN
+            z := z + 1
+        END;
+
+    WRITE(x)
+
+END.

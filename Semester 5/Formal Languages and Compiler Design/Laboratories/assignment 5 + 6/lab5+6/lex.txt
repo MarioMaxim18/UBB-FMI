@@ -1,0 +1,67 @@
+%{
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include "laboratory.tab.h" 
+
+int yylex(void);
+%}
+Digit      [0-9]
+Letter     [a-zA-Z]
+Identifier {Letter}({Letter}|{Digit})*
+Number     {Digit}+
+Whitespace [ \t\n]
+CharConst  '[^'\n]'
+StringConst \"[^"\n]*\"
+
+%%
+"VAR"       { return VAR; }
+"BEGIN"     { return BEGIN_STMT; } // MUST return the new token name
+"END"       { return END; }
+"ARRAY"     { return ARRAY; }
+"OF"        { return OF; }
+"BOOLEAN"   { return BOOLEAN; }
+"CHAR"      { return CHAR; }
+"INTEGER"   { return INTEGER; }
+"REAL"      { return REAL; }
+"IF"        { return IF; }
+"THEN"      { return THEN; }
+"ELSE"      { return ELSE; }
+"WHILE"     { return WHILE; }
+"DO"        { return DO; }
+"READ"      { return READ; }
+"WRITE"     { return WRITE; }
+
+":="        { return ASSIGN_OP; }
+"<="        { return LE_OP; }
+"<>"        { return NE_OP; }
+">="        { return GE_OP; }
+
+"+"         { return '+'; }
+"*"         { return '*'; }
+":"         { return ':'; }
+";"         { return ';'; }
+"."         { return '.'; }
+"("         { return '('; }
+")"         { return ')'; }
+"["         { return '['; }
+"]"         { return ']'; }
+"<"         { return '<'; }
+"="         { return '='; }
+">"         { return '>'; }
+
+{Identifier} { return IDENTIFIER; }
+{Number}     { return NR; }
+{CharConst}  { return CHARCONST; }
+{StringConst} { return STRINGCONST; }
+
+{Whitespace}+ { /* ignore */ }
+
+.           { fprintf(stderr, "Lexical error: unrecognized character %s\n", yytext); }
+
+%%
+
+int yywrap(void) {
+    return 1;
+}

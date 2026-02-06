@@ -1,0 +1,100 @@
+G = (N, Σ, P, S)
+
+------------------------------------------------------------
+N = { Program, DeclList, Declaration, Type, Type1, ArrayDecl,
+      CmpdStmt, StmtList, Stmt, SimplStmt, StructStmt,
+      AssignStmt, IoStmt, Expression, Term, Factor,
+      Condition, Relation, IfStmt, WhileStmt }
+
+------------------------------------------------------------
+Σ = {
+      // reserved words
+      array, boolean, char, const, do, else, if, int,
+      of, program, read, then, var, while, write, begin,
+      end, AND, NOT, OR
+
+      // operators
+      + - * / := < <= = >= 
+
+      // separators
+      [ ] { } ( ) : ;  space
+    }
+
+------------------------------------------------------------
+P = {
+    Identifier   → Letter | Letter {Letter} {Digit}
+    Letter       → "A" | "B" | … | "Z" | "a" | "b" | … | "z"
+    Digit        → "0" | "1" | … | "9"
+
+    Program      → "VAR" decllist ";" cmpdstmt "." 
+
+    DeclList     → Declaration
+    DeclList     → declaration ";" decllist 
+
+    Declaration  → IDENTIFIER ":" type 
+
+    Type1        → BOOLEAN
+    Type1        → CHAR
+    Type1        → INTEGER
+    Type1        → REAL
+
+    ArrayDecl    → "ARRAY" "[" intconst "]" "OF" type1
+
+    Type         → Type1
+    Type         → ArrayDecl
+
+    CmpdStmt     → "BEGIN" stmtlist "END" 
+
+    StmtList     → Stmt
+    StmtList     → stmt ";" stmtlist 
+
+    Stmt         → SimplStmt
+    Stmt         → StructStmt
+
+    SimplStmt    → AssignStmt
+    SimplStmt    → IoStmt
+
+    AssignStmt   → IDENTIFIER ":=" expression 
+
+    IoStmt       → "READ" "(" IDENTIFIER ")"
+    IoStmt       → "WRITE" "(" IDENTIFIER ")"
+
+    StructStmt   → CmpdStmt
+    StructStmt   → IfStmt
+    StructStmt   → WhileStmt
+
+    IfStmt       → "IF" condition "THEN" stmt ["ELSE" stmt] 
+
+    WhileStmt    → "WHILE" condition "DO" stmt
+
+    Expression   → expression "+" term 
+    Expression   → expression "-" term 
+    Expression   → expression "/" term
+    Expression   → expression "*" term
+    Expression   → Term
+
+    Term         → term "*" factor 
+    Term         → term “/” factor
+    Term         → term “-“ factor
+    Term         → term “+” factor 
+    Term         → Factor
+
+    Factor       → "(" expression ")" 
+    Factor       → IDENTIFIER
+    Factor       → INTCONST
+
+    Condition    → Condition AND Condition
+    Condition    → Condition OR Condition
+    Condition    → NOT Condition
+    Condition    → "(" expression RELATION expression  ")"
+
+    Relation     → "<"
+    Relation     → "<="
+    Relation     → "="
+    Relation     → "<>"
+    Relation     → ">="
+    Relation     → ">"
+}
+
+------------------------------------------------------------
+S = Program

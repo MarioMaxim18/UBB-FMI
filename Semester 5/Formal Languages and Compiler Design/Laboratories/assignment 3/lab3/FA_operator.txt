@@ -1,0 +1,11 @@
+states = {q0, q1}
+alphabet = {PLUS, MINUS, MULT, DIV, EQUAL}
+initial_state = q0
+final_states = {q1}
+transitions = {
+    (q0, PLUS) -> q1;
+    (q0, MINUS) -> q1;
+    (q0, MULT) -> q1;
+    (q0, DIV) -> q1;
+    (q0, EQUAL) -> q1;
+}

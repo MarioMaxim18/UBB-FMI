@@ -1,0 +1,58 @@
+%{
+#include <stdio.h>
+#include "laboratory.tab.h"
+%}
+
+%option noyywrap
+
+%%
+
+[ \t\n]+    ;
+
+"VAR"       { return VAR; }
+"BEGIN"     { return BEGIN_T; }
+"END"       { return END_T; }
+"IF"        { return IF; }
+"THEN"      { return THEN; }
+"ELSE"      { return ELSE; }
+"WHILE"     { return WHILE; }
+"DO"        { return DO; }
+"READ"      { return READ; }
+"WRITE"     { return WRITE; }
+"ARRAY"     { return ARRAY; }
+"OF"        { return OF; }
+"AND"       { return AND; }
+"OR"        { return OR; }
+"NOT"       { return NOT; }
+
+"INTEGER"   { return INTEGER; }
+"REAL"      { return REAL; }
+"BOOLEAN"   { return BOOLEAN; }
+"CHAR"      { return CHAR_T; }
+
+":="        { return ASSIGN; }
+"<="        { return LE; }
+">="        { return GE; }
+"<>"        { return NEQ; }
+"<"         { return LT; }
+">"         { return GT; }
+"="         { return EQ; }
+
+":"         { return ':'; }
+";"         { return ';'; }
+"."         { return '.'; }
+"+"         { return '+'; }
+"-"         { return '-'; }
+"*"         { return '*'; }
+"/"         { return '/'; }
+"("         { return '('; }
+")"         { return ')'; }
+"["         { return '['; }
+"]"         { return ']'; }
+
+[0-9]+      { return INTCONST; }
+[a-zA-Z][a-zA-Z0-9]*   { return IDENTIFIER; }
+
+.           { fprintf(stderr, "Lexical error: unrecognized character '%s'\n", yytext); }
+
+%%
