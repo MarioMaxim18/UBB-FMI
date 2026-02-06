@@ -150,7 +150,7 @@
       </a>
     </li>
     <li>
-      <a>
+      <a href="https://github.com/MarioMaxim18/UBB-FMI/tree/main/Semester%205/Formal%20Languages%20and%20Compiler%20Design">
         📟 Formal Languages and Compiler Design
       </a>
     </li>
