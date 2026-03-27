@@ -1,0 +1,31 @@
+body {
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f0f0f0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);  
+  gap: 16px;
+  padding: 16px;
+  width: min(500px, 90vw);              
+}
+
+.square {
+  aspect-ratio: 1 / 1;  
+  background-color: #4a90e2;
+  cursor: pointer;
+  transition: background-color 0.4s, aspect-ratio 0.4s;
+}
+
+.square:hover {
+  background-color: #e27b4a;
+}
+
+.square:focus {
+  grid-column: span 2;    
+  aspect-ratio: 3 / 1;  
+  background-color: #4ae27b;
+}
