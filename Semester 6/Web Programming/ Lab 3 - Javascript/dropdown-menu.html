@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dropdown Menu</title>
+  <style>
+    nav {
+      display: flex;
+      background: #333;
+      padding: 10px;
+      gap: 10px;
+    }
+
+    .menu {
+      position: relative;
+    }
+
+    .menu button {
+      background: #555;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      cursor: pointer;
+    }
+
+    .dropdown {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: #444;
+      min-width: 95px;
+    }
+
+    .dropdown a {
+      display: block;
+      color: white;
+      text-decoration: none;
+      padding: 8px 12px;
+    }
+
+    .dropdown a:hover {
+      background: #555;
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="menu">
+    <button onclick="toggleMenu(0)">File</button>
+    <div class="dropdown">
+      <a href="#">New</a>
+      <a href="#">Open</a>
+      <a href="#">Save</a>
+      <a href="#">Exit</a>
+    </div>
+  </div>
+
+  <div class="menu">
+    <button onclick="toggleMenu(1)">Edit</button>
+    <div class="dropdown">
+      <a href="#">Undo</a>
+      <a href="#">Redo</a>
+      <a href="#">Cut</a>
+      <a href="#">Copy</a>
+    </div>
+  </div>
+
+  <div class="menu">
+    <button onclick="toggleMenu(2)">View</button>
+    <div class="dropdown">
+      <a href="#">Zoom In</a>
+      <a href="#">Zoom Out</a>
+      <a href="#">Full Screen</a>
+    </div>
+  </div>
+
+  <div class="menu">
+    <button onclick="toggleMenu(3)">Tools</button>
+    <div class="dropdown">
+      <a href="#">Settings</a>
+      <a href="#">Extensions</a>
+      <a href="#">Terminal</a>
+      <a href="#">Shortcuts</a>
+    </div>
+  </div>
+
+  <div class="menu">
+    <button onclick="toggleMenu(4)">Help</button>
+    <div class="dropdown">
+      <a href="#">Documentation</a>
+      <a href="#">About</a>
+      <a href="#">Report Bug</a>
+    </div>
+  </div>
+</nav>
+
+<script>
+  function toggleMenu(index) {
+    var dropdowns = document.getElementsByClassName("dropdown");
+
+    for (var i = 0; i < dropdowns.length; i++) {
+      if (i === index) {                   
+        if (dropdowns[i].style.display === "block") {
+          dropdowns[i].style.display = "none";
+        } else {
+          dropdowns[i].style.display = "block";
+        }
+      } else {
+        dropdowns[i].style.display = "none";
+      }
+    }
+  }
+  
+  document.addEventListener("click", function(e) {
+    if (!e.target.matches("button")) {
+      var dropdowns = document.getElementsByClassName("dropdown");
+      for (var i = 0; i < dropdowns.length; i++) {
+        dropdowns[i].style.display = "none";
+      }
+    }
+  });
+</script>
+
+</body>
+</html>
