@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Jquery Lab 4</title>
+    <style>
+        body { 
+            padding: 0; 
+            margin: 0; 
+            background: #222; 
+            color: #fff; 
+            font-family: sans-serif; 
+            overflow: hidden; 
+        }
+
+        #gameArea { 
+            position: relative; 
+            width: 100vw;
+            height: 100vh; 
+            overflow: hidden; 
+            background: #333; 
+        }
+
+        #basket { 
+            position: absolute; 
+            bottom: 20px; 
+            width: 100px; 
+            height: 20px; 
+            background: #4caf50; 
+            border-radius: 10px;
+        }
+
+        .shape {
+            position: absolute;
+            top: -50px;
+            width: 30px;
+            height: 30px;
+            background: #f44336;
+            border-radius: 50%;
+        }
+
+        #ui {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div id="gameArea">
+        <div id="ui">
+            Score: <span id="score">0</span> | Lives: <span id="lives">3</span>
+        </div>
+        <div id="basket"></div>
+    </div>
+    
+    <script src="jquery-4.0.0.js"></script>
+    <script>
+        $(document).ready(function() {
+            let score = 0;
+            let lives = 3;
+            let gameArea = $('#gameArea');
+            let basket = $('#basket');
+            let gameActive = true;
+
+            gameArea.on('mousemove', function(e) {
+                if (!gameActive) return;
+                let xPos = e.pageX - (basket.width() / 2);
+                basket.css('left', xPos + 'px');
+            });
+
+            function createShape() {
+                if (!gameActive) return;
+
+                let shape = $('<div class="shape"></div>');
+                
+                let startLeft = Math.random() * (gameArea.width() - 30);
+                shape.css('left', startLeft + 'px');
+                
+                gameArea.append(shape);
+
+                let duration = Math.random() * 2000 + 2000;
+
+                shape.animate({ top: gameArea.height() }, {
+                    duration: duration,
+                    easing: 'linear',
+                    step: function() {
+                        if (!gameActive) {
+                            shape.stop();
+                            return;
+                        }
+                        
+                        let bTop = basket.position().top;
+                        let bLeft = basket.position().left;
+                        let bWidth = basket.width();
+                        let bHeight = basket.height();
+                        
+                        let sTop = shape.position().top + shape.height();
+                        let sLeft = shape.position().left;
+                        let sWidth = shape.width();
+
+                        // If the shape touches the basket area
+                        if (sTop >= bTop && sTop <= bTop + bHeight) {
+                            if (sLeft + sWidth > bLeft && sLeft < bLeft + bWidth) {
+                                score++;
+                                $('#score').text(score);
+                                shape.stop();
+                                shape.remove();
+                            }
+                        }
+                    },
+                    complete: function() {
+                        if (gameActive) {
+                            lives--;
+                            $('#lives').text(lives);
+                            shape.remove();
+
+                            if (lives <= 0) {
+                                gameActive = false;
+                                alert("Game Over! Final Score: " + score);
+                                $('.shape').stop().remove();
+                            }
+                        }
+                    }
+                });
+            }
+
+            setInterval(createShape, 1000);
+        });
+    </script>
+</body>
+</html>
