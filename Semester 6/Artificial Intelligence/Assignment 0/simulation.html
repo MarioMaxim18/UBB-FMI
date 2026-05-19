@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Particle Entropy Simulation</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #0d0d0d; color: #e0e0e0; font-family: 'Courier New', monospace; overflow: hidden; }
+
+    #canvas-container { width: 100vw; height: 100vh; }
+
+    #ui {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      background: rgba(0,0,0,0.72);
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 16px 20px;
+      min-width: 260px;
+      z-index: 10;
+    }
+    #ui h2 { font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: #aaa; margin-bottom: 14px; }
+
+    .row { margin-bottom: 12px; }
+    .row label { display: block; font-size: 12px; color: #bbb; margin-bottom: 4px; }
+    .row input[type=range] { width: 100%; accent-color: #5af; }
+    .row span { font-size: 13px; color: #5af; font-weight: bold; }
+
+    #stats {
+      position: fixed;
+      bottom: 16px;
+      left: 16px;
+      background: rgba(0,0,0,0.72);
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 12px;
+      color: #888;
+      z-index: 10;
+      line-height: 1.7;
+    }
+    #stats b { color: #5af; }
+
+    #legend {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      background: rgba(0,0,0,0.72);
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 14px 16px;
+      z-index: 10;
+      font-size: 12px;
+      color: #aaa;
+    }
+    #legend h3 { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #777; margin-bottom: 10px; }
+    #grad-bar {
+      width: 180px; height: 14px;
+      background: linear-gradient(to right, #1a1aff, #00ccff, #00ff88, #ffff00, #ff4400);
+      border-radius: 4px;
+      margin-bottom: 6px;
+    }
+    .grad-labels { display: flex; justify-content: space-between; font-size: 10px; color: #666; }
+  </style>
+</head>
+<body>
+
+<div id="canvas-container"></div>
+
+<div id="ui">
+  <h2>Controls</h2>
+  <div class="row">
+    <label>Particles: <span id="lbl-n">200</span></label>
+    <input type="range" id="sl-n" min="10" max="800" value="200" step="10" />
+  </div>
+  <div class="row">
+    <label>Temperature (speed): <span id="lbl-t">1.0</span></label>
+    <input type="range" id="sl-t" min="0.1" max="5.0" value="1.0" step="0.1" />
+  </div>
+  <div class="row">
+    <label>Grid (n×n×n): <span id="lbl-g">4</span></label>
+    <input type="range" id="sl-g" min="2" max="8" value="4" step="1" />
+  </div>
+</div>
+
+<div id="stats">
+  <div>FPS: <b id="fps">-</b></div>
+  <div>Particles: <b id="st-n">-</b></div>
+  <div>Grid: <b id="st-g">-</b></div>
+  <div>Mean H (Shannon): <b id="st-h">-</b></div>
+  <div>Max H possible: <b id="st-hmax">-</b></div>
+</div>
+
+<div id="legend">
+  <h3>Subcube Entropy</h3>
+  <div id="grad-bar"></div>
+  <div class="grad-labels">
+    <span>Low H</span>
+    <span>High H</span>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+// ─── Scene Setup ───────────────────────────────────────────────────────────
+const container = document.getElementById('canvas-container');
+const W = window.innerWidth, H = window.innerHeight;
+
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(W, H);
+renderer.setPixelRatio(window.devicePixelRatio);
+container.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x0d0d0d);
+
+const camera = new THREE.PerspectiveCamera(60, W / H, 0.01, 200);
+camera.position.set(0, 0, 4.5);
+camera.lookAt(0, 0, 0);
+
+// Ambient + directional light
+scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+dirLight.position.set(5, 10, 7);
+scene.add(dirLight);
+
+// ─── Outer Cube Wireframe ──────────────────────────────────────────────────
+const HALF = 1.5; // cube goes from -HALF to +HALF on each axis
+const boxGeo = new THREE.BoxGeometry(HALF * 2, HALF * 2, HALF * 2);
+const edgeGeo = new THREE.EdgesGeometry(boxGeo);
+const boxWire = new THREE.LineSegments(edgeGeo, new THREE.LineBasicMaterial({ color: 0x4488ff, linewidth: 1.5 }));
+scene.add(boxWire);
+
+// ─── Orbit Controls (minimal manual impl) ─────────────────────────────────
+let isDragging = false, lastMouse = { x: 0, y: 0 };
+let spherical = { theta: 0.4, phi: 1.1, r: 4.5 };
+
+function updateCamera() {
+  camera.position.set(
+    spherical.r * Math.sin(spherical.phi) * Math.sin(spherical.theta),
+    spherical.r * Math.cos(spherical.phi),
+    spherical.r * Math.sin(spherical.phi) * Math.cos(spherical.theta)
+  );
+  camera.lookAt(0, 0, 0);
+}
+updateCamera();
+
+renderer.domElement.addEventListener('mousedown', e => { isDragging = true; lastMouse = { x: e.clientX, y: e.clientY }; });
+renderer.domElement.addEventListener('mouseup', () => { isDragging = false; });
+renderer.domElement.addEventListener('mousemove', e => {
+  if (!isDragging) return;
+  const dx = e.clientX - lastMouse.x, dy = e.clientY - lastMouse.y;
+  spherical.theta -= dx * 0.005;
+  spherical.phi = Math.max(0.1, Math.min(Math.PI - 0.1, spherical.phi + dy * 0.005));
+  lastMouse = { x: e.clientX, y: e.clientY };
+  updateCamera();
+});
+renderer.domElement.addEventListener('wheel', e => {
+  spherical.r = Math.max(2.5, Math.min(12, spherical.r + e.deltaY * 0.005));
+  updateCamera();
+});
+
+// ─── Particle System ──────────────────────────────────────────────────────
+let particles = [];
+let meshes = [];
+const particleGeo = new THREE.SphereGeometry(0.025, 6, 6);
+
+function randRange(a, b) { return a + Math.random() * (b - a); }
+
+function createParticle(speed) {
+  const pos = new THREE.Vector3(
+    randRange(-HALF * 0.95, HALF * 0.95),
+    randRange(-HALF * 0.95, HALF * 0.95),
+    randRange(-HALF * 0.95, HALF * 0.95)
+  );
+  // Random unit direction * speed
+  const dir = new THREE.Vector3(randRange(-1,1), randRange(-1,1), randRange(-1,1)).normalize();
+  const vel = dir.multiplyScalar(speed * (0.6 + Math.random() * 0.8));
+  const mat = new THREE.MeshPhongMaterial({ color: 0xff4444, emissive: 0x441111 });
+  const mesh = new THREE.Mesh(particleGeo, mat);
+  mesh.position.copy(pos);
+  scene.add(mesh);
+  return { pos, vel, mesh };
+}
+
+function buildParticles(count, speed) {
+  // Remove old
+  for (const p of particles) scene.remove(p.mesh);
+  particles = [];
+  for (let i = 0; i < count; i++) {
+    particles.push(createParticle(speed));
+  }
+}
+
+// ─── Subcube Grid ─────────────────────────────────────────────────────────
+let gridN = 4;
+let subCubeMeshes = [];
+
+function buildGrid(n) {
+  for (const m of subCubeMeshes) scene.remove(m);
+  subCubeMeshes = [];
+
+  const cellSize = (HALF * 2) / n;
+  const geo = new THREE.BoxGeometry(cellSize, cellSize, cellSize);
+
+  for (let ix = 0; ix < n; ix++) {
+    for (let iy = 0; iy < n; iy++) {
+      for (let iz = 0; iz < n; iz++) {
+        const cx = -HALF + (ix + 0.5) * cellSize;
+        const cy = -HALF + (iy + 0.5) * cellSize;
+        const cz = -HALF + (iz + 0.5) * cellSize;
+
+        const mat = new THREE.MeshPhongMaterial({
+          color: 0x1155cc,
+          transparent: true,
+          opacity: 0.08,
+          side: THREE.FrontSide,
+          depthWrite: false
+        });
+        const mesh = new THREE.Mesh(geo, mat);
+        mesh.position.set(cx, cy, cz);
+        mesh.userData = { ix, iy, iz };
+        scene.add(mesh);
+        subCubeMeshes.push(mesh);
+
+        // Wireframe for this subcube
+        const wMat = new THREE.LineBasicMaterial({ color: 0x223355, transparent: true, opacity: 0.3 });
+        const wMesh = new THREE.LineSegments(new THREE.EdgesGeometry(geo), wMat);
+        wMesh.position.set(cx, cy, cz);
+        scene.add(wMesh);
+        subCubeMeshes.push(wMesh); // track for cleanup
+      }
+    }
+  }
+}
+
+// ─── Entropy Calculation ───────────────────────────────────────────────────
+// Shannon entropy per subcube over speed histogram bins
+const SPEED_BINS = 8;
+
+function computeEntropies(n) {
+  const cellSize = (HALF * 2) / n;
+  // cell index 0..n-1
+  const cells = new Array(n).fill(null).map(() =>
+    new Array(n).fill(null).map(() =>
+      new Array(n).fill(null).map(() => new Array(SPEED_BINS).fill(0))
+    )
+  );
+  const maxSpeed = currentTemp * 2.5 + 0.1; // expected max speed
+
+  for (const p of particles) {
+    const ix = Math.min(n - 1, Math.floor((p.pos.x + HALF) / cellSize));
+    const iy = Math.min(n - 1, Math.floor((p.pos.y + HALF) / cellSize));
+    const iz = Math.min(n - 1, Math.floor((p.pos.z + HALF) / cellSize));
+    const speed = p.vel.length();
+    const bin = Math.min(SPEED_BINS - 1, Math.floor((speed / maxSpeed) * SPEED_BINS));
+    cells[ix][iy][iz][bin]++;
+  }
+
+  // Compute Shannon H for each cell
+  const entropies = [];
+  for (let ix = 0; ix < n; ix++) {
+    for (let iy = 0; iy < n; iy++) {
+      for (let iz = 0; iz < n; iz++) {
+        const counts = cells[ix][iy][iz];
+        const total = counts.reduce((a, b) => a + b, 0);
+        let H = 0;
+        if (total > 0) {
+          for (const c of counts) {
+            if (c > 0) {
+              const p = c / total;
+              H -= p * Math.log2(p);
+            }
+          }
+        }
+        entropies.push({ ix, iy, iz, H, total });
+      }
+    }
+  }
+  return entropies;
+}
+
+// Map entropy 0..maxH to color (blue->cyan->green->yellow->red)
+function entropyColor(H, maxH) {
+  const t = maxH > 0 ? Math.min(1, H / maxH) : 0;
+  // 5-stop gradient: blue, cyan, green, yellow, red
+  const stops = [
+    [0.03, 0.03, 0.9],
+    [0.0,  0.8,  1.0],
+    [0.0,  1.0,  0.3],
+    [1.0,  1.0,  0.0],
+    [1.0,  0.2,  0.0]
+  ];
+  const seg = (stops.length - 1) * t;
+  const i = Math.min(stops.length - 2, Math.floor(seg));
+  const f = seg - i;
+  const a = stops[i], b = stops[i + 1];
+  return new THREE.Color(
+    a[0] + (b[0] - a[0]) * f,
+    a[1] + (b[1] - a[1]) * f,
+    a[2] + (b[2] - a[2]) * f
+  );
+}
+
+// ─── UI Controls ──────────────────────────────────────────────────────────
+let targetCount = 200;
+let currentTemp = 1.0;
+let pendingRebuild = false;
+
+const slN = document.getElementById('sl-n');
+const slT = document.getElementById('sl-t');
+const slG = document.getElementById('sl-g');
+const lblN = document.getElementById('lbl-n');
+const lblT = document.getElementById('lbl-t');
+const lblG = document.getElementById('lbl-g');
+
+slN.addEventListener('input', () => {
+  targetCount = parseInt(slN.value);
+  lblN.textContent = targetCount;
+  pendingRebuild = true;
+});
+
+slT.addEventListener('input', () => {
+  currentTemp = parseFloat(slT.value);
+  lblT.textContent = currentTemp.toFixed(1);
+  // Rescale existing velocities
+  for (const p of particles) {
+    const s = p.vel.length();
+    if (s > 0) p.vel.multiplyScalar(currentTemp / (s || 1) * (0.6 + Math.random() * 0.8));
+  }
+  pendingRebuild = true;
+});
+
+slG.addEventListener('input', () => {
+  gridN = parseInt(slG.value);
+  lblG.textContent = gridN;
+  buildGrid(gridN);
+});
+
+// ─── Init ─────────────────────────────────────────────────────────────────
+buildParticles(targetCount, currentTemp);
+buildGrid(gridN);
+
+// ─── Animation Loop ───────────────────────────────────────────────────────
+const DT = 1 / 60;
+let lastTime = performance.now();
+let frameCount = 0, fpsTimer = 0, fps = 0;
+
+// Only solid subcube meshes (every other entry is wireframe)
+function getSolidMeshes() {
+  // subCubeMeshes alternates: solid, wire, solid, wire, ...
+  return subCubeMeshes.filter((_, i) => i % 2 === 0);
+}
+
+function animate() {
+  requestAnimationFrame(animate);
+
+  const now = performance.now();
+  const dt = Math.min((now - lastTime) / 1000, 0.05);
+  lastTime = now;
+
+  // FPS counter
+  frameCount++;
+  fpsTimer += dt;
+  if (fpsTimer >= 0.5) {
+    fps = Math.round(frameCount / fpsTimer);
+    frameCount = 0; fpsTimer = 0;
+    document.getElementById('fps').textContent = fps;
+  }
+
+  // Rebuild if slider changed
+  if (pendingRebuild) {
+    pendingRebuild = false;
+    buildParticles(targetCount, currentTemp);
+    buildGrid(gridN);
+  }
+
+  // Update particles
+  const r = 0.025; // sphere radius
+  for (const p of particles) {
+    p.pos.addScaledVector(p.vel, dt);
+
+    // Wall bounce (elastic)
+    if (p.pos.x - r < -HALF) { p.pos.x = -HALF + r; p.vel.x = Math.abs(p.vel.x); }
+    if (p.pos.x + r >  HALF) { p.pos.x =  HALF - r; p.vel.x = -Math.abs(p.vel.x); }
+    if (p.pos.y - r < -HALF) { p.pos.y = -HALF + r; p.vel.y = Math.abs(p.vel.y); }
+    if (p.pos.y + r >  HALF) { p.pos.y =  HALF - r; p.vel.y = -Math.abs(p.vel.y); }
+    if (p.pos.z - r < -HALF) { p.pos.z = -HALF + r; p.vel.z = Math.abs(p.vel.z); }
+    if (p.pos.z + r >  HALF) { p.pos.z =  HALF - r; p.vel.z = -Math.abs(p.vel.z); }
+
+    p.mesh.position.copy(p.pos);
+  }
+
+  // Compute entropy and colour subcubes
+  const entropies = computeEntropies(gridN);
+  const maxH = Math.log2(SPEED_BINS); // theoretical max
+  const solidMeshes = getSolidMeshes();
+
+  let sumH = 0;
+  for (let i = 0; i < entropies.length; i++) {
+    const { H } = entropies[i];
+    sumH += H;
+    const col = entropyColor(H, maxH);
+    if (solidMeshes[i]) {
+      solidMeshes[i].material.color.set(col);
+      // opacity scales with H for dramatic effect
+      solidMeshes[i].material.opacity = 0.04 + 0.28 * (H / maxH);
+    }
+  }
+
+  const meanH = entropies.length > 0 ? sumH / entropies.length : 0;
+  document.getElementById('st-n').textContent = particles.length;
+  document.getElementById('st-g').textContent = `${gridN}³ = ${gridN**3} cells`;
+  document.getElementById('st-h').textContent = meanH.toFixed(3) + ' bits';
+  document.getElementById('st-hmax').textContent = maxH.toFixed(3) + ' bits';
+
+  renderer.render(scene, camera);
+}
+
+// Handle resize
+window.addEventListener('resize', () => {
+  const W = window.innerWidth, H = window.innerHeight;
+  camera.aspect = W / H;
+  camera.updateProjectionMatrix();
+  renderer.setSize(W, H);
+});
+
+animate();
+</script>
+</body>
+</html>
