@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise Users Management</title>
+    <style>
+        :root {
+            --primary: #5f6368;
+            --danger: #4a4d52;
+            --success: #6b6e73;
+            --bg: #f5f6fa;
+            --text: #2f3640;
+            --border: #dcdde1;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+            background: #fdfdfd;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+        }
+        .control-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            margin-bottom: 6px;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+        input, select, textarea {
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 0.95em;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        button {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            color: white;
+            font-weight: bold;
+            transition: opacity 0.2s;
+        }
+        button:hover {
+            opacity: 0.8;
+        }
+        .btn-primary { background-color: var(--primary); }
+        .btn-danger { background-color: var(--danger); }
+        .btn-success { background-color: var(--success); }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            padding: 14px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        th {
+            background-color: #f1f2f6;
+            font-weight: 600;
+        }
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+        .action-btns button {
+            margin-right: 5px;
+            padding: 6px 12px;
+            font-size: 0.85em;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+        }
+        .modal-header h2 {
+            margin: 0;
+        }
+        .close-btn {
+            background: none;
+            color: var(--text);
+            font-size: 1.8em;
+            padding: 0;
+            font-weight: bold;
+        }
+        .close-btn:hover {
+            color: #3c4043;
+            background: none;
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        .full-width {
+            grid-column: 1 / -1;
+        }
+        
+        .filter-info {
+            background: #ececee;
+            border-left: 4px solid #9aa0a6;
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            display: none;
+            font-size: 0.95em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Enterprise Users Management</h1>
+        
+        <div class="filter-info" id="filterInfo"></div>
+
+        <div class="controls">
+            <div class="control-group">
+                <input type="text" id="searchName" placeholder="Search by name...">
+                <button class="btn-primary" onclick="loadUsers()">Search</button>
+            </div>
+            <div class="control-group">
+                <label for="filterRole" style="font-weight: 600;">Filter Role:</label>
+                <select id="filterRole" onchange="loadUsers()">
+                    <option value="">All Roles</option>
+                    <option value="Admin">Admin</option>
+                    <option value="Manager">Manager</option>
+                    <option value="Developer">Developer</option>
+                </select>
+            </div>
+            <button class="btn-success" onclick="openModal()">+ Add New User</button>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Username</th>
+                    <th>Role</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="usersTableBody"></tbody>
+        </table>
+    </div>
+
+    <div class="modal-overlay" id="userModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="modalTitle">Add User</h2>
+                <button class="close-btn" type="button" onclick="closeModal()">&times;</button>
+            </div>
+            <form id="userForm" novalidate onsubmit="saveUser(event)">
+                <input type="hidden" id="userId">
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Name *</label>
+                        <input type="text" id="name" name="name" minlength="2" maxlength="100" placeholder="name" autocomplete="name">
+                    </div>
+                    <div class="form-group">
+                        <label>Username *</label>
+                        <input type="text" id="username" name="username" minlength="3" maxlength="30" pattern="[A-Za-z0-9_]{3,30}" title="Letters, digits, and underscore only" placeholder="username" autocomplete="username">
+                    </div>
+                    <div class="form-group">
+                        <label>Password *</label>
+                        <input type="password" id="password" name="password" maxlength="128" autocomplete="new-password" placeholder="At least 8 characters">
+                    </div>
+                    <div class="form-group">
+                        <label>Age</label>
+                        <input type="number" id="age" name="age" min="18" max="90" placeholder="18–90">
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Role *</label>
+                        <select id="role" name="role" required>
+                            <option value="">Select Role</option>
+                            <option value="Admin">Admin</option>
+                            <option value="Manager">Manager</option>
+                            <option value="Developer">Developer</option>
+                        </select>
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Profile Description</label>
+                        <textarea id="profile" name="profile" rows="3" maxlength="2000" placeholder="Up to 2000 characters"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="email" name="email" maxlength="254" placeholder="name@example.com" autocomplete="email">
+                    </div>
+                    <div class="form-group">
+                        <label>Webpage</label>
+                        <input type="url" id="webpage" name="webpage" maxlength="2048" placeholder="https://example.com" autocomplete="url">
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 25px;">
+                    <button type="button" class="btn-danger" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="btn-success">Save User</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let previousRoleFilter = '';
+
+        document.addEventListener('DOMContentLoaded', loadUsers);
+
+        const ALLOWED_ROLES = ['Admin', 'Manager', 'Developer'];
+        const MIN_AGE = 18;
+        const MAX_AGE = 90;
+
+        function validateUserForm(isEdit) {
+            const name = document.getElementById('name').value.trim();
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const ageRaw = document.getElementById('age').value.trim();
+            const role = document.getElementById('role').value;
+            const profile = document.getElementById('profile').value;
+            const email = document.getElementById('email').value.trim();
+            const webpage = document.getElementById('webpage').value.trim();
+
+            if (name.length < 2 || name.length > 100) {
+                return 'Name must be between 2 and 100 characters.';
+            }
+            if (!/^[\p{L}\s\-'.]+$/u.test(name)) {
+                return 'Name may only contain letters, spaces, hyphens, apostrophes, and periods.';
+            }
+
+            if (!/^[A-Za-z0-9_]{3,30}$/.test(username)) {
+                return 'Username must be 3–30 characters (letters, digits, underscore only).';
+            }
+
+            if (!isEdit && password.length < 8) {
+                return 'Password must be at least 8 characters.';
+            }
+            if (password.length > 128) {
+                return 'Password must be at most 128 characters.';
+            }
+            if (isEdit && password.length > 0 && password.length < 8) {
+                return 'New password must be at least 8 characters, or leave blank to keep the current one.';
+            }
+
+            if (ageRaw !== '') {
+                const age = parseInt(ageRaw, 10);
+                if (Number.isNaN(age) || age < MIN_AGE || age > MAX_AGE) {
+                    return 'Age must be a whole number between ' + MIN_AGE + ' and ' + MAX_AGE + ', or left empty.';
+                }
+            }
+
+            if (!ALLOWED_ROLES.includes(role)) {
+                return 'Please select a valid role.';
+            }
+
+            if (profile.length > 2000) {
+                return 'Profile description must be at most 2000 characters.';
+            }
+
+            if (email !== '') {
+                if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                    return 'Please enter a valid email address, or leave it empty.';
+                }
+            }
+
+            if (webpage !== '') {
+                try {
+                    const u = new URL(webpage);
+                    if (u.protocol !== 'http:' && u.protocol !== 'https:') {
+                        return 'Webpage must use http:// or https://.';
+                    }
+                } catch (e) {
+                    return 'Please enter a valid URL, or leave it empty.';
+                }
+            }
+
+            return null;
+        }
+
+        function loadUsers() {
+            const currentRole = document.getElementById('filterRole').value;
+            const name = document.getElementById('searchName').value;
+            const filterInfo = document.getElementById('filterInfo');
+
+            if (previousRoleFilter !== '') {
+                filterInfo.style.display = 'block';
+                filterInfo.innerHTML = `<strong>Last Role Filter Used:</strong> <em>${previousRoleFilter}</em>`;
+            } else {
+                filterInfo.style.display = 'none';
+            }
+
+            previousRoleFilter = currentRole || 'All Roles';
+
+            fetch(`fetch.php?role=${encodeURIComponent(currentRole)}&name=${encodeURIComponent(name)}`)
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.getElementById('usersTableBody');
+                    tbody.innerHTML = '';
+                    
+                    if (data.length === 0) {
+                        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 20px;">No users found.</td></tr>';
+                        return;
+                    }
+
+                    data.forEach(user => {
+                        const tr = document.createElement('tr');
+                        const userJson = JSON.stringify(user).replace(/'/g, "&#39;");
+                        
+                        tr.innerHTML = `
+                            <td>${user.id}</td>
+                            <td><strong>${user.name}</strong></td>
+                            <td>${user.username}</td>
+                            <td><span style="background: #e8eaed; color: #3c4043; padding: 3px 8px; border-radius: 12px; font-size: 0.85em;">${user.role}</span></td>
+                            <td>${user.email}</td>
+                            <td class="action-btns">
+                                <button class="btn-primary" onclick='editUser(${userJson})'>Edit</button>
+                                <button class="btn-danger" onclick="deleteUser(${user.id}, '${user.name.replace(/'/g, "\\'")}')">Delete</button>
+                            </td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching users:', error);
+                    alert("Error loading data from the server.");
+                });
+        }
+
+        function openModal() {
+            document.getElementById('modalTitle').innerText = 'Add New User';
+            document.getElementById('userForm').reset();
+            document.getElementById('userId').value = '';
+            const pw = document.getElementById('password');
+            pw.placeholder = 'At least 8 characters';
+            document.getElementById('userModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            if(confirm("Are you sure you want to cancel? Any unsaved changes will be lost.")){
+                document.getElementById('userModal').style.display = 'none';
+            }
+        }
+
+        function editUser(user) {
+            document.getElementById('modalTitle').innerText = 'Edit User';
+            document.getElementById('userId').value = user.id;
+            document.getElementById('name').value = user.name;
+            document.getElementById('username').value = user.username;
+            const pw = document.getElementById('password');
+            pw.value = '';
+            pw.placeholder = 'Leave blank to keep current password';
+            pw.removeAttribute('minlength');
+            document.getElementById('age').value = user.age;
+            document.getElementById('role').value = user.role;
+            document.getElementById('profile').value = user.profile;
+            document.getElementById('email').value = user.email;
+            document.getElementById('webpage').value = user.webpage;
+            
+            document.getElementById('userModal').style.display = 'flex';
+        }
+
+        function saveUser(event) {
+            event.preventDefault();
+
+            const id = document.getElementById('userId').value;
+            const isEdit = Boolean(id);
+            const clientErr = validateUserForm(isEdit);
+            if (clientErr) {
+                alert(clientErr);
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('name', document.getElementById('name').value);
+            formData.append('username', document.getElementById('username').value);
+            formData.append('password', document.getElementById('password').value);
+            formData.append('age', document.getElementById('age').value);
+            formData.append('role', document.getElementById('role').value);
+            formData.append('profile', document.getElementById('profile').value);
+            formData.append('email', document.getElementById('email').value);
+            formData.append('webpage', document.getElementById('webpage').value);
+
+            let url = 'add.php';
+            if (id) {
+                url = 'update.php';
+                formData.append('id', id);
+            }
+
+            fetch(url, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    document.getElementById('userModal').style.display = 'none';
+                    loadUsers();
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error saving user:', error);
+                alert("An error occurred while saving the user.");
+            });
+        }
+
+        function deleteUser(id, name) {
+            if (confirm(`Are you sure you want to delete user: ${name}?`)) {
+                const formData = new FormData();
+                formData.append('id', id);
+
+                fetch('delete.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        loadUsers();
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error deleting user:', error);
+                    alert("An error occurred while deleting the user.");
+                });
+            }
+        }
+    </script>
+</body>
+</html>
